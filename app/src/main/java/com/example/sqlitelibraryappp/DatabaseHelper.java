@@ -2,6 +2,7 @@ package com.example.sqlitelibraryappp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -30,15 +31,12 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-            String query = "CREATE TABLE " + TABLE_NAME +
-                    " (" + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_TITLE + " TEXT, " +
-                    COLUMN_AUTHOR + " TEXT, " +
-                    COLUMN_PAGES + " INTEGER) ;";
-
-            db.execSQL(query);
-
+        String query = "CREATE TABLE " + TABLE_NAME +
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_TITLE + " TEXT, " +
+                COLUMN_AUTHOR + " TEXT, " +
+                COLUMN_PAGES + " INTEGER);";
+        db.execSQL(query);
     }
 
     @Override
@@ -63,5 +61,18 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
         }
 
 
+
+
+    }
+
+    Cursor readData(){
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }
